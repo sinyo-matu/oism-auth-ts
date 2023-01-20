@@ -1,5 +1,11 @@
 # oism-auth
 
+## 0.2.2
+
+### Patch Changes
+
+- 1d876c5: update publish
+
 ## 0.2.1
 
 ### Patch Changes
