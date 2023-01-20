@@ -1,12 +1,12 @@
 import { z } from "zod";
 import { OismAuthError } from "./error";
 import {
-  ExchangeCodeResponse,
-  GetRefreshTokenListResponseBody,
-  GetUserByAccessTokenResponseBody,
-  LoginRequestResponse,
-  LoginReturnUserExIdResponse,
-  RefreshResponseBody,
+  ExchangeCodeResponseZ,
+  GetRefreshTokenListResponseBodyZ,
+  GetUserByAccessTokenResponseBodyZ,
+  LoginRequestResponseZ,
+  LoginReturnUserExIdResponseZ,
+  RefreshResponseBodyZ,
 } from "./types";
 
 export class AuthClient {
@@ -26,7 +26,7 @@ export class AuthClient {
       throw new OismAuthError.InvalidLoginInfo();
     }
     this.checkRestStatus(res);
-    return this.jsonParse(res, LoginRequestResponse);
+    return this.jsonParse(res, LoginRequestResponseZ);
   }
 
   async loginReturnUserExId(username: string, password: string) {
@@ -39,7 +39,7 @@ export class AuthClient {
       throw new OismAuthError.InvalidLoginInfo();
     }
     this.checkRestStatus(res);
-    return this.jsonParse(res, LoginReturnUserExIdResponse);
+    return this.jsonParse(res, LoginReturnUserExIdResponseZ);
   }
 
   async exchangeCode(code: string, clientCode: string) {
@@ -55,7 +55,7 @@ export class AuthClient {
       throw new OismAuthError.ExpiredCode();
     }
     this.checkRestStatus(res);
-    return this.jsonParse(res, ExchangeCodeResponse);
+    return this.jsonParse(res, ExchangeCodeResponseZ);
   }
 
   async getUser(accessToken: string) {
@@ -73,7 +73,7 @@ export class AuthClient {
       }
     }
     this.checkRestStatus(res);
-    return (await this.jsonParse(res, GetUserByAccessTokenResponseBody)).user;
+    return (await this.jsonParse(res, GetUserByAccessTokenResponseBodyZ)).user;
   }
 
   async getTokenList(accessToken: string, clientCode: string) {
@@ -93,7 +93,7 @@ export class AuthClient {
       }
     }
     this.checkRestStatus(res);
-    return (await this.jsonParse(res, GetRefreshTokenListResponseBody)).tokens;
+    return (await this.jsonParse(res, GetRefreshTokenListResponseBodyZ)).tokens;
   }
 
   async refreshToken(clientCode: string, refreshToken: string) {
@@ -113,7 +113,7 @@ export class AuthClient {
       }
     }
     this.checkRestStatus(res);
-    return await this.jsonParse(res, RefreshResponseBody);
+    return await this.jsonParse(res, RefreshResponseBodyZ);
   }
 
   private async wrappedPost(url: string, body: string) {
