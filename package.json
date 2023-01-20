@@ -7,7 +7,8 @@
   "description": "OISM Authentication",
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts",
-    "lint": "tsc"
+    "lint": "tsc",
+    "publish": "pnpm run build&&pnpm publish"
   },
   "license": "MIT",
   "devDependencies": {
