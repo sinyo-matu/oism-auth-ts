@@ -1,5 +1,11 @@
 # oism-auth
 
+## 0.2.5
+
+### Patch Changes
+
+- 9af5e1f: remove getUserWIthRefresh
+
 ## 0.2.4
 
 ### Patch Changes
