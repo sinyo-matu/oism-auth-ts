@@ -23,14 +23,14 @@ export const ExchangeCodeResponseZ: z.ZodType<Tokens> = z.object({
 export interface User {
   clientCode: string;
   exId: string;
-  imageUrl?: string;
+  imageUrl: string | null;
   name: string;
 }
 
 const UserZ: z.ZodType<User> = z.object({
   clientCode: z.string(),
   exId: z.string(),
-  imageUrl: z.string().optional(),
+  imageUrl: z.string().nullable(),
   name: z.string(),
 });
 

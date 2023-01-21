@@ -211,7 +211,7 @@ export class AuthClient {
       return schema.parse(json) as T;
     } catch (e) {
       throw new OismAuthError.InvalidResponseBody(
-        `invalid response body: ${JSON.stringify(json)}`
+        `invalid response body: ${JSON.stringify(json)} ${e}}`
       );
     }
   }
