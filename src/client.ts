@@ -8,6 +8,7 @@ import {
   LoginRequestResponseZ,
   LoginReturnUserExIdResponseZ,
   RefreshResponseBodyZ,
+  Tokens,
 } from "./types";
 
 export class AuthClient {
@@ -19,7 +20,7 @@ export class AuthClient {
     this.#clientCode = ClientCodeZ.parse(clientCode);
   }
 
-  async getLoginUrl() {
+  getLoginUrl() {
     return `${this.#hostBaseUrl}/login?client_code=${this.#clientCode}`;
   }
 
