@@ -1,5 +1,11 @@
 # oism-auth
 
+## 0.2.4
+
+### Patch Changes
+
+- ab5954e: update methods structure
+
 ## 0.2.3
 
 ### Patch Changes
