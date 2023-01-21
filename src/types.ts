@@ -10,12 +10,12 @@ export const LoginRequestResponseZ: z.ZodType<LoginRequestResponse> = z.object({
 
 export const ClientCodeZ = z.string().uuid("clientCode must be a valid uuid");
 
-export interface ExchangeCodeResponse {
+export interface Tokens {
   accessToken: string;
   refreshToken: string;
 }
 
-export const ExchangeCodeResponseZ: z.ZodType<ExchangeCodeResponse> = z.object({
+export const ExchangeCodeResponseZ: z.ZodType<Tokens> = z.object({
   accessToken: z.string(),
   refreshToken: z.string(),
 });
@@ -38,12 +38,7 @@ export const GetUserByAccessTokenResponseBodyZ = z.object({
   user: UserZ,
 });
 
-export interface RefreshResponseBody {
-  accessToken: string;
-  refreshToken: string;
-}
-
-export const RefreshResponseBodyZ: z.ZodType<RefreshResponseBody> = z.object({
+export const RefreshResponseBodyZ: z.ZodType<Tokens> = z.object({
   accessToken: z.string(),
   refreshToken: z.string(),
 });

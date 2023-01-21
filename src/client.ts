@@ -23,8 +23,8 @@ export class AuthClient {
     return `${this.#hostBaseUrl}/login?client_code=${this.#clientCode}`;
   }
 
-  async login(username: string, password: string, clientCode: string) {
-    const data = { username, password, clientCode: clientCode };
+  async login(username: string, password: string) {
+    const data = { username, password, clientCode: this.#clientCode };
     const res = await this.wrappedPost(
       `${this.#hostBaseUrl}/api/v1/auth/login`,
       JSON.stringify(data)
@@ -49,8 +49,8 @@ export class AuthClient {
     return this.jsonParse(res, LoginReturnUserExIdResponseZ);
   }
 
-  async exchangeCode(code: string, clientCode: string) {
-    const data = { code, clientCode };
+  async exchangeCode(code: string) {
+    const data = { code, clientCode: this.#clientCode };
     const res = await this.wrappedPost(
       `${this.#hostBaseUrl}/api/v1/auth/exchange_code`,
       JSON.stringify(data)
@@ -83,8 +83,8 @@ export class AuthClient {
     return (await this.jsonParse(res, GetUserByAccessTokenResponseBodyZ)).user;
   }
 
-  async getTokenList(accessToken: string, clientCode: string) {
-    const data = { clientCode };
+  async getTokenList(accessToken: string) {
+    const data = { clientCode: this.#clientCode };
     const res = await this.wrappedAuthPost(
       `${this.#hostBaseUrl}/api/v1/auth/token_list`,
       accessToken,
@@ -103,8 +103,8 @@ export class AuthClient {
     return (await this.jsonParse(res, GetRefreshTokenListResponseBodyZ)).tokens;
   }
 
-  async refreshToken(clientCode: string, refreshToken: string) {
-    const data = { clientCode };
+  async refreshToken(refreshToken: string) {
+    const data = { clientCode: this.#clientCode };
     const res = await this.wrappedAuthPost(
       `${this.#hostBaseUrl}/api/v1/auth/refresh`,
       refreshToken,
