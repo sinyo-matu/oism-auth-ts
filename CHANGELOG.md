@@ -1,5 +1,11 @@
 # oism-auth
 
+## 0.2.3
+
+### Patch Changes
+
+- ef1b8e9: add clientCode deps to authClient constructor
+
 ## 0.2.2
 
 ### Patch Changes
