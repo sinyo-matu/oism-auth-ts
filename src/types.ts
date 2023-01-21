@@ -8,6 +8,8 @@ export const LoginRequestResponseZ: z.ZodType<LoginRequestResponse> = z.object({
   redirectUrl: z.string(),
 });
 
+export const ClientCodeZ = z.string().uuid("clientCode must be a valid uuid");
+
 export interface ExchangeCodeResponse {
   accessToken: string;
   refreshToken: string;

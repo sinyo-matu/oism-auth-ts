@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { OismAuthError } from "./error";
 import {
+  ClientCodeZ,
   ExchangeCodeResponseZ,
   GetRefreshTokenListResponseBodyZ,
   GetUserByAccessTokenResponseBodyZ,
@@ -10,16 +11,22 @@ import {
 } from "./types";
 
 export class AuthClient {
-  private HOST_BASE_URL: string;
+  #hostBaseUrl: string;
+  #clientCode: string;
 
-  constructor(hostBaseUrl: string) {
-    this.HOST_BASE_URL = hostBaseUrl;
+  constructor(hostBaseUrl: string, clientCode: string) {
+    this.#hostBaseUrl = hostBaseUrl;
+    this.#clientCode = ClientCodeZ.parse(clientCode);
+  }
+
+  async getLoginUrl() {
+    return `${this.#hostBaseUrl}/login?client_code=${this.#clientCode}`;
   }
 
   async login(username: string, password: string, clientCode: string) {
     const data = { username, password, clientCode: clientCode };
     const res = await this.wrappedPost(
-      `${this.HOST_BASE_URL}/api/v1/auth/login`,
+      `${this.#hostBaseUrl}/api/v1/auth/login`,
       JSON.stringify(data)
     );
     if (res.status === 404 || res.status === 401) {
@@ -32,7 +39,7 @@ export class AuthClient {
   async loginReturnUserExId(username: string, password: string) {
     const data = { username, password };
     const res = await this.wrappedPost(
-      `${this.HOST_BASE_URL}/api/v1/auth/login_return_user_ex_id`,
+      `${this.#hostBaseUrl}/api/v1/auth/login_return_user_ex_id`,
       JSON.stringify(data)
     );
     if (res.status === 404 || res.status === 401) {
@@ -45,7 +52,7 @@ export class AuthClient {
   async exchangeCode(code: string, clientCode: string) {
     const data = { code, clientCode };
     const res = await this.wrappedPost(
-      `${this.HOST_BASE_URL}/api/v1/auth/exchange_code`,
+      `${this.#hostBaseUrl}/api/v1/auth/exchange_code`,
       JSON.stringify(data)
     );
     if (
@@ -60,7 +67,7 @@ export class AuthClient {
 
   async getUser(accessToken: string) {
     const res = await this.wrappedAuthGet(
-      `${this.HOST_BASE_URL}/api/v1/user/by_access_token`,
+      `${this.#hostBaseUrl}/api/v1/user/by_access_token`,
       accessToken
     );
     if (res.status === 401) {
@@ -79,7 +86,7 @@ export class AuthClient {
   async getTokenList(accessToken: string, clientCode: string) {
     const data = { clientCode };
     const res = await this.wrappedAuthPost(
-      `${this.HOST_BASE_URL}/api/v1/auth/token_list`,
+      `${this.#hostBaseUrl}/api/v1/auth/token_list`,
       accessToken,
       JSON.stringify(data)
     );
@@ -99,7 +106,7 @@ export class AuthClient {
   async refreshToken(clientCode: string, refreshToken: string) {
     const data = { clientCode };
     const res = await this.wrappedAuthPost(
-      `${this.HOST_BASE_URL}/api/v1/auth/refresh`,
+      `${this.#hostBaseUrl}/api/v1/auth/refresh`,
       refreshToken,
       JSON.stringify(data)
     );
@@ -183,7 +190,6 @@ export class AuthClient {
       throw new OismAuthError.ServerError(`${res.status}:${await res.text()}`);
     }
     if (res.status >= 300) {
-      console.log(res);
       throw new OismAuthError.UnknownError(`invalid response: ${res.status}`);
     }
   }
