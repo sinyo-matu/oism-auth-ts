@@ -1,5 +1,11 @@
 # oism-auth
 
+## 0.2.6
+
+### Patch Changes
+
+- 40508ae: update User schema
+
 ## 0.2.5
 
 ### Patch Changes
