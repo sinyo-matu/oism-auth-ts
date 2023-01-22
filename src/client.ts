@@ -116,7 +116,7 @@ export class AuthClient {
       if (m === "Expired refresh token") {
         throw new OismAuthError.ExpiredRefreshToken();
       }
-      if (m === "Invalid token") {
+      if (m === "Invalid refresh token") {
         throw new OismAuthError.InvalidToken();
       }
     }
