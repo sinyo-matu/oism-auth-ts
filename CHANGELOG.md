@@ -1,5 +1,11 @@
 # oism-auth
 
+## 0.2.7
+
+### Patch Changes
+
+- 621db75: fix refresh token error handling
+
 ## 0.2.6
 
 ### Patch Changes
