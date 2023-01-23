@@ -8,7 +8,6 @@ import {
   LoginRequestResponseZ,
   LoginReturnUserExIdResponseZ,
   RefreshResponseBodyZ,
-  Tokens,
 } from "./types";
 
 export class AuthClient {
