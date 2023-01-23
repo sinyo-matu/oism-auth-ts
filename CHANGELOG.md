@@ -1,5 +1,11 @@
 # oism-auth
 
+## 0.3.2
+
+### Patch Changes
+
+- d2bd070: update cookie options
+
 ## 0.3.1
 
 ### Patch Changes
