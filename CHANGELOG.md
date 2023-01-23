@@ -1,5 +1,11 @@
 # oism-auth
 
+## 0.3.1
+
+### Patch Changes
+
+- 25fe2b4: add multi-entrypoint
+
 ## 0.3.0
 
 ### Minor Changes
