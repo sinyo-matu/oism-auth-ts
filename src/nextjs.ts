@@ -13,7 +13,7 @@ export class NextJsAuthClient extends AuthClient {
     clientCode: string,
     accessTokenName: string,
     refreshTokenName: string,
-    cOptions: Partial<CookieOptions>
+    cOptions?: Partial<CookieOptions>
   ) {
     super(hostBaseUrl, clientCode);
     this.#accessTokenName = accessTokenName;
