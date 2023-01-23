@@ -2,6 +2,11 @@
   "name": "oism-auth",
   "version": "0.3.0",
   "main": "dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./svelte-kit": "./dist/svelte-kit",
+    "./nextjs": "./dist/nextjs"
+  },
   "types": "dist/index.d.ts",
   "module": "dist/index.mjs",
   "description": "OISM Authentication",
