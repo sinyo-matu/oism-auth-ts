@@ -2,19 +2,23 @@ import { AuthClient } from "./client";
 import { GetServerSidePropsContext } from "next";
 import nookies from "nookies";
 import { OismAuthError } from "./error";
+import { CookieOptions, defaultCookieOptions } from "./types";
 
 export class NextJsAuthClient extends AuthClient {
   #accessTokenName: string;
   #refreshTokenName: string;
+  #cookieOptions: CookieOptions;
   constructor(
     hostBaseUrl: string,
     clientCode: string,
     accessTokenName: string,
-    refreshTokenName: string
+    refreshTokenName: string,
+    cOptions: Partial<CookieOptions>
   ) {
     super(hostBaseUrl, clientCode);
     this.#accessTokenName = accessTokenName;
     this.#refreshTokenName = refreshTokenName;
+    this.#cookieOptions = { ...defaultCookieOptions, ...cOptions };
   }
   /**
    * this will be used in the svelte-kit hooks function
@@ -52,8 +56,18 @@ export class NextJsAuthClient extends AuthClient {
           }
           return null;
         }
-        nookies.set(ctx, this.#accessTokenName, newTokens.accessToken);
-        nookies.set(ctx, this.#refreshTokenName, newTokens.refreshToken);
+        nookies.set(
+          ctx,
+          this.#accessTokenName,
+          newTokens.accessToken,
+          this.#cookieOptions
+        );
+        nookies.set(
+          ctx,
+          this.#refreshTokenName,
+          newTokens.refreshToken,
+          this.#cookieOptions
+        );
         try {
           // get user info with the new access token
           user = await this.getUser(newTokens.accessToken);
@@ -83,8 +97,8 @@ export class NextJsAuthClient extends AuthClient {
     const { accessToken, refreshToken } = await this.exchangeCode(
       code as string
     );
-    nookies.set(ctx, this.#accessTokenName, accessToken);
-    nookies.set(ctx, this.#refreshTokenName, refreshToken);
+    nookies.set(ctx, this.#accessTokenName, accessToken, this.#cookieOptions);
+    nookies.set(ctx, this.#refreshTokenName, refreshToken, this.#cookieOptions);
     return true;
   }
 
@@ -97,3 +111,5 @@ export class NextJsAuthClient extends AuthClient {
     nookies.destroy(ctx, this.#refreshTokenName);
   }
 }
+
+const client = new NextJsAuthClient("", "", "", "", { path: "/" });

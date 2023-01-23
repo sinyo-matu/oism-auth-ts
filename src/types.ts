@@ -69,3 +69,20 @@ export const LoginReturnUserExIdResponseZ: z.ZodType<LoginReturnUserExIdResponse
   z.object({
     userExId: z.string(),
   });
+
+export const defaultCookieOptions = {
+  path: "/",
+  sameSite: "lax",
+  httpOnly: true,
+  secure: true,
+  domain: "oism.app",
+  maxAge: 60 * 60 * 24 * 30,
+} as const;
+
+export interface CookieOptions {
+  path: string;
+  sameSite: "lax" | "strict" | "none";
+  httpOnly: boolean;
+  domain: string;
+  maxAge: number;
+}

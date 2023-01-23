@@ -1,19 +1,23 @@
 import type { RequestEvent } from "@sveltejs/kit";
 import { AuthClient } from "./client";
 import { OismAuthError } from "./error";
+import { CookieOptions, defaultCookieOptions } from "./types";
 
 export class SvelteAuthClient extends AuthClient {
   #accessTokenName: string;
   #refreshTokenName: string;
+  #cookieOptions: CookieOptions;
   constructor(
     hostBaseUrl: string,
     clientCode: string,
     accessTokenName: string,
-    refreshTokenName: string
+    refreshTokenName: string,
+    cOptions: Partial<CookieOptions>
   ) {
     super(hostBaseUrl, clientCode);
     this.#accessTokenName = accessTokenName;
     this.#refreshTokenName = refreshTokenName;
+    this.#cookieOptions = { ...defaultCookieOptions, ...cOptions };
   }
 
   /**
@@ -52,8 +56,16 @@ export class SvelteAuthClient extends AuthClient {
           }
           return null;
         }
-        event.cookies.set(this.#accessTokenName, newTokens.accessToken);
-        event.cookies.set(this.#refreshTokenName, newTokens.refreshToken);
+        event.cookies.set(
+          this.#accessTokenName,
+          newTokens.accessToken,
+          this.#cookieOptions
+        );
+        event.cookies.set(
+          this.#refreshTokenName,
+          newTokens.refreshToken,
+          this.#cookieOptions
+        );
         try {
           // get user info with the new access token
           user = await this.getUser(newTokens.accessToken);
@@ -83,8 +95,12 @@ export class SvelteAuthClient extends AuthClient {
     const { accessToken, refreshToken } = await this.exchangeCode(
       queryParams.get("code") as string
     );
-    event.cookies.set(this.#accessTokenName, accessToken);
-    event.cookies.set(this.#refreshTokenName, refreshToken);
+    event.cookies.set(this.#accessTokenName, accessToken, this.#cookieOptions);
+    event.cookies.set(
+      this.#refreshTokenName,
+      refreshToken,
+      this.#cookieOptions
+    );
     return true;
   }
 
