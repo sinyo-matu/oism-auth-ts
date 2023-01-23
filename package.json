@@ -3,9 +3,17 @@
   "version": "0.3.3",
   "main": "dist/index.js",
   "exports": {
-    ".": "./dist/index.js",
-    "./svelte-kit": "./dist/svelte-kit",
-    "./nextjs": "./dist/nextjs"
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./index.d.ts",
+      "module": "./index.mjs",
+      "default": "./index.js"
+    },
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "module": "./dist/*.mjs",
+      "default": "./dist/*.js"
+    }
   },
   "types": "dist/index.d.ts",
   "module": "dist/index.mjs",
