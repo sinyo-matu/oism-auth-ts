@@ -1,5 +1,11 @@
 # oism-auth
 
+## 0.3.0
+
+### Minor Changes
+
+- 77323ba: add svelte-kit and nextjs helper
+
 ## 0.2.7
 
 ### Patch Changes
