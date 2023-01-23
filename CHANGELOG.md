@@ -1,5 +1,11 @@
 # oism-auth
 
+## 0.3.3
+
+### Patch Changes
+
+- 08a0153: fix
+
 ## 0.3.2
 
 ### Patch Changes
