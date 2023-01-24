@@ -1,5 +1,11 @@
 # oism-auth
 
+## 0.3.5
+
+### Patch Changes
+
+- 0e8a894: fix package.json
+
 ## 0.3.4
 
 ### Patch Changes
