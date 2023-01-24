@@ -1,5 +1,11 @@
 # oism-auth
 
+## 0.3.6
+
+### Patch Changes
+
+- d930ab3: update cookie interface
+
 ## 0.3.5
 
 ### Patch Changes
