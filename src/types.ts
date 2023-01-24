@@ -8,8 +8,6 @@ export const LoginRequestResponseZ: z.ZodType<LoginRequestResponse> = z.object({
   redirectUrl: z.string(),
 });
 
-export const ClientCodeZ = z.string().uuid("clientCode must be a valid uuid");
-
 export interface Tokens {
   accessToken: string;
   refreshToken: string;
@@ -84,5 +82,6 @@ export interface CookieOptions {
   sameSite: "lax" | "strict" | "none";
   httpOnly: boolean;
   domain: string;
+  secure: boolean;
   maxAge: number;
 }

@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { OismAuthError } from "./error";
 import {
-  ClientCodeZ,
   ExchangeCodeResponseZ,
   GetRefreshTokenListResponseBodyZ,
   GetUserByAccessTokenResponseBodyZ,
@@ -16,7 +15,7 @@ export class AuthClient {
 
   constructor(hostBaseUrl: string, clientCode: string) {
     this.#hostBaseUrl = hostBaseUrl;
-    this.#clientCode = ClientCodeZ.parse(clientCode);
+    this.#clientCode = clientCode;
   }
 
   getLoginUrl() {
