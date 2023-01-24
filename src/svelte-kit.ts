@@ -3,7 +3,7 @@ import { AuthClient } from "./client";
 import { OismAuthError } from "./error";
 import { CookieOptions, defaultCookieOptions } from "./types";
 
-export class SvelteAuthClient extends AuthClient {
+export class SveltekitAuthClient extends AuthClient {
   #accessTokenName: string;
   #refreshTokenName: string;
   #cookieOptions: CookieOptions;

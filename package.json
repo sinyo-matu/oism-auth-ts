@@ -1,28 +1,33 @@
 {
   "name": "oism-auth",
   "version": "0.3.4",
-  "main": "dist/index.js",
+  "type": "module",
+  "main": "index.js",
+  "types": "index.d.ts",
   "exports": {
     "./package.json": "./package.json",
     ".": {
       "types": "./index.d.ts",
-      "module": "./index.mjs",
+      "module": "./index.js",
+      "import": "./index.js",
+      "require": "./index.cjs",
       "default": "./index.js"
     },
     "./*": {
-      "types": "./dist/*.d.ts",
-      "module": "./dist/*.mjs",
-      "default": "./dist/*.js"
+      "types": "./*.d.ts",
+      "module": "./*.js",
+      "import": "./*.js",
+      "require": "./*.cjs",
+      "default": "./*.js"
     }
   },
-  "types": "dist/index.d.ts",
-  "module": "dist/index.mjs",
   "description": "OISM Authentication",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build": "tsup src/index.ts src/svelte-kit.ts src/nextjs.ts --format cjs,esm --dts",
+    "build": "tsup --entry src/index.ts --entry src/svelte-kit.ts --entry src/nextjs.ts --format cjs,esm --dts --outDir ./",
+    "build:dev": "tsup --entry src/index.ts --entry src/svelte-kit.ts --entry src/nextjs.ts --format cjs,esm --dts",
     "lint": "tsc",
     "publish": "pnpm run build&&pnpm changeset publish"
   },
