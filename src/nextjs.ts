@@ -1,6 +1,6 @@
 import { AuthClient } from "./client";
 import { GetServerSidePropsContext } from "next";
-import nookies from "nookies";
+import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import { OismAuthError } from "./error";
 import { CookieOptions, defaultCookieOptions } from "./types";
 
@@ -32,9 +32,7 @@ export class NextJsAuthClient extends AuthClient {
    */
   async extractUser(ctx: GetServerSidePropsContext) {
     // check if the user is logged in
-    const cookies = nookies.get(ctx);
-    const accessToken = cookies[this.#accessTokenName];
-    const refreshToken = cookies[this.#refreshTokenName];
+    const { accessToken, refreshToken } = this.getCookies(ctx);
     if (!accessToken || !refreshToken) {
       return null;
     }
@@ -56,18 +54,7 @@ export class NextJsAuthClient extends AuthClient {
           }
           return null;
         }
-        nookies.set(
-          ctx,
-          this.#accessTokenName,
-          newTokens.accessToken,
-          this.#cookieOptions
-        );
-        nookies.set(
-          ctx,
-          this.#refreshTokenName,
-          newTokens.refreshToken,
-          this.#cookieOptions
-        );
+        this.setCookies(ctx, newTokens.accessToken, newTokens.refreshToken);
         try {
           // get user info with the new access token
           user = await this.getUser(newTokens.accessToken);
@@ -97,8 +84,7 @@ export class NextJsAuthClient extends AuthClient {
     const { accessToken, refreshToken } = await this.exchangeCode(
       code as string
     );
-    nookies.set(ctx, this.#accessTokenName, accessToken, this.#cookieOptions);
-    nookies.set(ctx, this.#refreshTokenName, refreshToken, this.#cookieOptions);
+    this.setCookies(ctx, accessToken, refreshToken);
     return true;
   }
 
@@ -107,8 +93,50 @@ export class NextJsAuthClient extends AuthClient {
    * @param ctx next request event
    */
   cleanupCookies(ctx: GetServerSidePropsContext) {
-    nookies.destroy(ctx, this.#accessTokenName);
-    nookies.destroy(ctx, this.#refreshTokenName);
+    deleteCookie(this.#accessTokenName, {
+      req: ctx.req,
+      res: ctx.res,
+      ...this.#cookieOptions,
+    });
+    deleteCookie(this.#refreshTokenName, {
+      req: ctx.req,
+      res: ctx.res,
+      ...this.#cookieOptions,
+    });
+  }
+
+  private getCookies(ctx: GetServerSidePropsContext) {
+    return {
+      accessToken: getCookie(this.#accessTokenName, {
+        req: ctx.req,
+        res: ctx.res,
+      })?.toString(),
+      refreshToken: getCookie(this.#refreshTokenName, {
+        req: ctx.req,
+        res: ctx.res,
+      })?.toString(),
+    };
+  }
+
+  private setCookies(
+    ctx: GetServerSidePropsContext,
+    accessToken: string,
+    refreshToken: string
+  ) {
+    this.setCookie(ctx, this.#accessTokenName, accessToken);
+    this.setCookie(ctx, this.#refreshTokenName, refreshToken);
+  }
+
+  private setCookie(
+    ctx: GetServerSidePropsContext,
+    name: string,
+    value: string
+  ) {
+    setCookie(name, value, {
+      req: ctx.req,
+      res: ctx.res,
+      ...this.#cookieOptions,
+    });
   }
 }
 
