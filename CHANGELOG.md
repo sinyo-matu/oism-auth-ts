@@ -1,5 +1,11 @@
 # oism-auth
 
+## 0.3.7
+
+### Patch Changes
+
+- fc44123: update cookie deps
+
 ## 0.3.6
 
 ### Patch Changes
