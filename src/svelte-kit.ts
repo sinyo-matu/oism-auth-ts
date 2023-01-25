@@ -105,7 +105,7 @@ export class SveltekitAuthClient extends AuthClient {
   }
 
   cleanupCookies(event: RequestEvent) {
-    event.cookies.delete(this.#accessTokenName);
-    event.cookies.delete(this.#refreshTokenName);
+    event.cookies.delete(this.#accessTokenName, this.#cookieOptions);
+    event.cookies.delete(this.#refreshTokenName, this.#cookieOptions);
   }
 }

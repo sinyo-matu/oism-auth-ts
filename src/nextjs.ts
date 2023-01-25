@@ -139,5 +139,3 @@ export class NextJsAuthClient extends AuthClient {
     });
   }
 }
-
-const client = new NextJsAuthClient("", "", "", "", { path: "/" });
