@@ -1,5 +1,11 @@
 # oism-auth
 
+## 0.3.8
+
+### Patch Changes
+
+- 9ed9a37: update svelte-kit
+
 ## 0.3.7
 
 ### Patch Changes
